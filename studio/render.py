@@ -71,7 +71,9 @@ def main():
             n = int(round(info["total"] * fps))
             ffmpeg = shutil.which("ffmpeg") or "ffmpeg"
             cmd = [ffmpeg, "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", str(fps), "-i", "-",
-                   "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "slow", "-crf", "17",
+                   # quadros em 1920×1080, entregue em 1280×720: cabe no limite de todas as specs do X (API: 1280×1024)
+                   "-vf", "scale=1280:720:flags=lanczos",
+                   "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "slow", "-crf", "16",
                    "-profile:v", "high", "-movflags", "+faststart", "-r", str(fps), str(out)]
             proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
             for i in range(n):
