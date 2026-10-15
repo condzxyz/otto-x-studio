@@ -1,0 +1,10 @@
+{
+  "kind": "card", "format": "4x5", "theme": "paper", "layout": "compare", "seed": 4,
+  "kicker": "repost × citação", "tag": "código de 2026",
+  "title": "por que citar rende mais que repostar",
+  "cols": [
+    {"head": "repost", "title": "fica na sua bolha", "lose": true, "items": ["só chega a quem já te segue", "entra com ×0,75 no score", "some para quem já viu o original", "não disputa a vaga de conta pequena"]},
+    {"head": "citação", "title": "vira post novo", "win": true, "items": ["pode ir para quem não te segue", "disputa a vaga de conta pequena", "ganha o boost de resposta entre mútuos", "aparece mesmo para quem viu o citado"]}
+  ],
+  "source": "home-mixer/filters · author_cold_start.rs · candidates_util.rs"
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "card", "format": "4x5", "theme": "paper", "layout": "stat", "seed": 1,
+  "kicker": "algoritmo do x · 2026", "tag": "14.10.2026",
+  "title": "peso de curtir no ranking",
+  "value": "0,66",
+  "label": "uma curtida prevista vale *0,66* no score do para você",
+  "note": "o peso multiplica a chance prevista de cada leitor curtir. ele não converte curtidas em respostas.",
+  "chip": "era 0,5 · 0,6 em 13/10 · 0,66 em 14/10",
+  "source": "xai-org/x-algorithm · home-mixer/params/param.rs\nsync de 13/10/2026"
+}

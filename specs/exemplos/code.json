@@ -1,0 +1,10 @@
+{
+  "kind": "card", "format": "16x9", "theme": "paper", "layout": "code", "seed": 7,
+  "kicker": "lido no código", "tag": "author_cold_start.rs",
+  "title": "quem pode disputar a vaga de *conta pequena*",
+  "start": 188,
+  "highlight": [189, 190, 191],
+  "code": "fn cold_start_base_eligible(c: &PostCandidate, follower_cap: i64) -> bool {\n    c.in_reply_to_tweet_id.is_none()\n        && c.retweeted_tweet_id.is_none()\n        && c.author_followers_count\n            .is_some_and(|followers| (followers as i64) <= follower_cap)\n}",
+  "path": "home-mixer/scorers/author_cold_start.rs · follower_cap = 50000 em param.rs",
+  "source": "xai-org/x-algorithm · commit 17c96bf · 14/10/2026"
+}

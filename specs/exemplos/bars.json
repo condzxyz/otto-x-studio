@@ -1,0 +1,18 @@
+{
+  "kind": "card", "format": "4x5", "theme": "ink", "layout": "bars", "seed": 2,
+  "kicker": "algoritmo do x · 2026", "tag": "pesos positivos",
+  "title": "o que o *para você* mais valoriza",
+  "items": [
+    {"label": "copiar link", "value": 20, "hi": true},
+    {"label": "resposta entre mútuos", "value": 20, "hi": true},
+    {"label": "responder", "value": 5},
+    {"label": "citar", "value": 5},
+    {"label": "mandar por dm", "value": 5},
+    {"label": "seguir o autor", "value": 4},
+    {"label": "compartilhar", "value": 2},
+    {"label": "repostar", "value": 1},
+    {"label": "curtir", "value": 0.66}
+  ],
+  "note": "pesos multiplicam probabilidades previstas para cada leitor, não contagens.",
+  "source": "xai-org/x-algorithm · param.rs · sync 13/10/2026"
+}

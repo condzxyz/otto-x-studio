@@ -1,0 +1,12 @@
+{
+  "kind": "video", "theme": "ink", "fps": 30, "seed": 3,
+  "kicker": "algoritmo do x · 2026", "tag": "lido no código",
+  "source": "xai-org/x-algorithm · author_cold_start.rs · param.rs · 14/10/2026",
+  "scenes": [
+    {"layout": "title", "dur": 2.8, "title": "a vaga de *conta pequena* no para você", "sub": "as três regras do código de 2026 para disputar"},
+    {"layout": "stat", "dur": 2.5, "title": "regra 1 · tamanho da conta", "value": "50.000", "label": "seguidores, no máximo"},
+    {"layout": "stat", "dur": 2.5, "title": "regra 2 · idade do post", "value": "2", "unit": "h", "label": "desde a publicação"},
+    {"layout": "stat", "dur": 2.5, "title": "regra 3 · alcance até agora", "value": "200", "unit": "views", "label": "na home, no máximo"},
+    {"layout": "end", "dur": 3.0, "title": "1 vaga por carregamento, sorteada por *curtidas ÷ views*", "sub": "só post original ou citação"}
+  ]
+}

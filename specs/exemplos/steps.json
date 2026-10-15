@@ -1,0 +1,13 @@
+{
+  "kind": "card", "format": "4x5", "theme": "paper", "layout": "steps", "seed": 3,
+  "kicker": "crescer do zero", "tag": "01/05",
+  "title": "a janela de *2 horas* da conta pequena",
+  "items": [
+    {"t": "poste quando sua base está online", "d": "as primeiras views na home decidem o sorteio"},
+    {"t": "abra com algo que mereça curtida", "d": "a vaga é sorteada por curtidas ÷ views"},
+    {"t": "espace os originais em 2 h ou mais", "d": "dois posts seus disputam a mesma vaga"},
+    {"t": "prefira post original e citação", "d": "reply e repost não concorrem à vaga"},
+    {"t": "responda quem comentar nas 2 primeiras horas"}
+  ],
+  "source": "author_cold_start.rs · param.rs (200 views, 50 mil seguidores, 7.200 s)"
+}

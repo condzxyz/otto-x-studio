@@ -1,0 +1,13 @@
+{
+  "kind": "card", "format": "16x9", "theme": "ink", "layout": "flow", "seed": 6,
+  "kicker": "como o para você monta o feed", "tag": "2026",
+  "title": "do candidato ao *feed* em 4 etapas",
+  "nodes": [
+    {"k": "01 · fontes", "t": "candidatos", "d": "quem você segue e fora da rede"},
+    {"k": "02 · filtros", "t": "corta o que não serve", "d": "mais de 48 h, já visto, repost duplicado"},
+    {"k": "03 · modelo", "t": "prevê ~20 ações", "d": "curtir, responder, citar, silenciar…", "hi": true},
+    {"k": "04 · ajustes", "t": "soma ponderada", "d": "×0,75 fora da rede, desconto por autor"}
+  ],
+  "note": "cada carregamento devolve 35 posts.",
+  "source": "xai-org/x-algorithm · home-mixer · commit 17c96bf"
+}

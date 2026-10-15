@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* Otto · estúdio de cards e vídeos para o X
+   Tokens da marca (otto.doti.gg): lime #B6FF2E, ink #16160F, paper #FBFCF8. */
+:root{
+  --lime:#B6FF2E; --ink:#16160F; --paper:#FBFCF8; --green:#1A2E05; --danger:#C2361F;
+  --display:'Inter Tight',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace; --serif:'Instrument Serif',Georgia,serif;
+}
+.theme-paper{ --bg:#FBFCF8; --fg:#16160F; --muted:#5D6356; --line:#D7DDCC; --soft:#EEF1E7; --code-bg:#16160F; --code-fg:#E9ECE2; --code-muted:#7E8576; --mark:#B6FF2E; --mark-fg:#16160F; --neg:#C2361F; }
+.theme-ink{ --bg:#141410; --fg:#F2F4EC; --muted:#A1A796; --line:#34382D; --soft:#1E1F18; --code-bg:#0D0D0A; --code-fg:#E9ECE2; --code-muted:#7E8576; --mark:#B6FF2E; --mark-fg:#16160F; --neg:#FF7A5C; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000}
+#stage{position:relative;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--display);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+/* decoração: círculos finos como na landing */
+.deco{position:absolute;pointer-events:none}
+.deco circle{fill:none;stroke:var(--line);stroke-width:1.5}
+.deco .dot{fill:var(--lime);stroke:none}
+.glow{filter:drop-shadow(0 0 10px rgba(182,255,46,.9))}
+
+/* moldura */
+.frame{position:absolute;inset:0;display:flex;flex-direction:column;padding:var(--pad)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:24px;flex:0 0 auto}
+.pill{display:inline-flex;align-items:center;gap:14px;border:1.5px solid var(--line);border-radius:999px;padding:.55em 1.05em;font-family:var(--mono);font-weight:500;font-size:var(--kick);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);background:color-mix(in srgb,var(--bg) 80%,transparent);white-space:nowrap}
+.pill i{width:.62em;height:.62em;border-radius:50%;background:var(--lime);box-shadow:0 0 12px rgba(182,255,46,.85);display:block}
+.tag{font-family:var(--mono);font-size:var(--kick);color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+.body{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;min-height:0;position:relative;padding:calc(var(--pad)*.45) 0}
+.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex:0 0 auto}
+.brand{display:flex;align-items:center;gap:16px;white-space:nowrap}
+.brand img{width:var(--icon);height:var(--icon);border-radius:22%;display:block}
+.brand b{font-weight:600;font-size:calc(var(--icon)*.62);letter-spacing:-.02em}
+.brand span{font-family:var(--mono);font-size:var(--small);color:var(--muted);margin-left:4px}
+.src{font-family:var(--mono);font-size:var(--small);color:var(--muted);text-align:right;line-height:1.4;max-width:66%}
+.src span{white-space:nowrap}
+
+/* tipografia */
+.h{font-weight:800;letter-spacing:-.035em;line-height:.98;font-size:var(--h)}
+.h em,.em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.mk{background:linear-gradient(transparent 58%,var(--mark) 58%,var(--mark) 92%,transparent 92%);padding:0 .06em;color:inherit}
+.theme-ink .mk{background:none;color:var(--lime)}
+.sub{font-size:var(--sub);line-height:1.28;color:var(--muted);font-weight:400;letter-spacing:-.01em;margin-top:.9em;max-width:92%}
+.k{font-family:var(--mono);font-size:var(--kick);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fit{overflow:hidden}
+
+/* stat */
+.stat .num{font-weight:800;letter-spacing:-.055em;line-height:.9;padding-bottom:.07em;font-size:var(--num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat .unit{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;font-size:.42em;margin-left:.08em}
+.stat .label{font-weight:700;letter-spacing:-.03em;line-height:1.02;font-size:var(--h2);margin-top:calc(var(--gap)*1.2);max-width:96%}
+.chip{display:inline-flex;align-items:center;gap:.5em;margin-top:1.1em;font-family:var(--mono);font-size:var(--small);border-radius:999px;padding:.5em 1em;background:var(--soft);color:var(--fg);align-self:flex-start}
+.chip i{width:.55em;height:.55em;border-radius:50%;background:var(--lime);display:block}
+
+/* bars */
+.bars .rows{display:flex;flex-direction:column;gap:var(--gap);margin-top:calc(var(--gap)*1.9)}
+.bar{display:grid;grid-template-columns:var(--blabel) 1fr auto;align-items:center;gap:22px}
+.bar .bl{font-size:var(--row);font-weight:500;letter-spacing:-.015em;line-height:1.05}
+.bar .tr{height:var(--bh);background:var(--soft);border-radius:999px;position:relative;overflow:hidden}
+.bar .fl{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--fg)}
+.bar.hi .fl{background:var(--lime)}
+.bar.neg .fl{background:var(--neg)}
+.bar .bv{font-family:var(--mono);font-size:var(--row);font-weight:500;min-width:4.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.bar.neg .bv{color:var(--neg)}
+.note{font-size:var(--small2);color:var(--muted);margin-top:calc(var(--gap)*1.6);line-height:1.35;font-family:var(--display)}
+
+/* steps */
+.steps ol{list-style:none;display:flex;flex-direction:column;gap:var(--gap);margin-top:calc(var(--gap)*1.9)}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:baseline;border-top:1.5px solid var(--line);padding-top:var(--gap2)}
+.steps li:first-child{border-top:none;padding-top:0}
+.steps .n{font-family:var(--mono);font-size:var(--row);color:var(--muted);font-weight:500}
+.steps .t{font-size:var(--row2);font-weight:700;letter-spacing:-.025em;line-height:1.08}
+.steps .d{font-size:var(--small2);color:var(--muted);line-height:1.32;margin-top:.3em;font-weight:400}
+
+/* compare */
+.cmp .cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:calc(var(--gap)*1.9);align-items:stretch}
+.col{border:1.5px solid var(--line);border-radius:26px;padding:var(--cpad);display:flex;flex-direction:column;gap:.55em;position:relative}
+.col.win{border:2px solid var(--fg)}
+.col .ch i:empty{display:none}.col.win .ch i{display:block}
+.col .ch{font-family:var(--mono);font-size:var(--kick);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.6em}
+.col.win .ch i{width:.7em;height:.7em;border-radius:50%;background:var(--lime);display:block;box-shadow:0 0 10px rgba(182,255,46,.8)}
+.col .ct{font-size:var(--row2);font-weight:800;letter-spacing:-.03em;line-height:1.02}
+.col ul{list-style:none;display:flex;flex-direction:column;gap:.6em;margin-top:.3em}
+.col li{font-size:var(--small2);line-height:1.28;display:grid;grid-template-columns:auto 1fr;gap:.6em;align-items:baseline}
+.col li:before{content:"";width:.5em;height:.5em;border-radius:50%;border:2px solid var(--muted);display:block;transform:translateY(-.08em)}
+.col.win li:before{background:var(--lime);border-color:var(--lime)}
+.col.lose{color:var(--muted)} .col.lose .ct{color:var(--muted)}
+
+/* code */
+.code .box{background:var(--code-bg);color:var(--code-fg);border-radius:24px;padding:var(--cpad) 0;margin-top:calc(var(--gap)*1.9);font-variant-ligatures:none;font-family:var(--mono);font-size:var(--codef);line-height:1.62;overflow:hidden;border:1.5px solid var(--line)}
+.code .ln{display:grid;grid-template-columns:3.2ch 1fr;gap:1.2ch;padding:0 var(--cpad);white-space:pre}
+.code .ln b{color:var(--code-muted);font-weight:400;text-align:right}
+.code .ln.hl{background:rgba(182,255,46,.13);box-shadow:inset 5px 0 0 var(--lime)}
+.code .ln.hl span{color:#fff}
+.code .c{color:var(--code-muted)} .code .s{color:#C9E7A0} .code .nn{color:var(--lime)}
+.code .path{font-family:var(--mono);font-size:var(--small);color:var(--muted);margin-top:.9em}
+
+/* timeline */
+.tl .items{position:relative;margin-top:calc(var(--gap)*2);display:flex;flex-direction:column;gap:var(--gap)}
+.tl .items:before{content:"";position:absolute;left:calc(var(--dot)/2 - 1px);top:.4em;bottom:.4em;width:2px;background:var(--line)}
+.tl .it{display:grid;grid-template-columns:var(--dot) auto 1fr;gap:26px;align-items:baseline;position:relative}
+.tl .it i{width:var(--dot);height:var(--dot);border-radius:50%;background:var(--bg);border:2.5px solid var(--fg);display:block;transform:translateY(.12em)}
+.tl .it.last i{background:var(--lime);border-color:var(--lime);box-shadow:0 0 12px rgba(182,255,46,.8)}
+.tl .w{font-family:var(--mono);font-size:var(--small2);color:var(--muted);white-space:nowrap;min-width:6.5ch}
+.tl .x{font-size:var(--row2);font-weight:700;letter-spacing:-.025em;line-height:1.08}
+.tl .x small{display:block;font-size:.62em;color:var(--muted);font-weight:400;letter-spacing:-.01em;margin-top:.25em;line-height:1.3}
+
+/* flow */
+.flow .nodes{display:flex;gap:0;margin-top:calc(var(--gap)*2);align-items:stretch}
+.flow.vert .nodes{flex-direction:column}
+.node{flex:1 1 0;border:1.5px solid var(--line);border-radius:22px;padding:var(--cpad2);display:flex;flex-direction:column;gap:.35em;background:var(--bg);min-width:0}
+.node.hi{border:2px solid var(--fg);box-shadow:inset 0 -6px 0 var(--lime)}
+.node .nk{font-family:var(--mono);font-size:var(--small);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.node .nt{font-size:var(--row);font-weight:700;letter-spacing:-.02em;line-height:1.08}
+.node .nd{font-size:var(--small);color:var(--muted);line-height:1.3}
+.arrow{flex:0 0 var(--arr);display:flex;align-items:center;justify-content:center}
+.arrow svg{width:100%;height:100%}
+.arrow path{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* quote */
+.qt .q{font-family:var(--serif);font-style:italic;font-weight:400;font-size:var(--qf);line-height:1.08;letter-spacing:-.015em}
+.qt .qm{font-family:var(--serif);font-size:calc(var(--qf)*2.4);line-height:.7;height:.42em;color:var(--muted);display:block}
+.theme-ink .qt .qm{color:var(--lime)}
+.qt .who{margin-top:1.1em;font-size:var(--row);font-weight:700;letter-spacing:-.02em}
+.qt .who span{display:block;font-weight:400;color:var(--muted);font-size:.78em;margin-top:.2em}
+
+/* end card do vídeo */
+.end{align-items:flex-start}
+.end .big{display:flex;align-items:center;gap:28px}
+.end .big img{width:calc(var(--icon)*2.6);height:calc(var(--icon)*2.6);border-radius:22%}
+.end .big b{font-size:calc(var(--icon)*2.1);font-weight:700;letter-spacing:-.04em}
+
+/* HUD do vídeo */
+.hud .bar0{position:absolute;left:0;bottom:0;height:6px;background:var(--lime);width:0}
+.scene{position:absolute;inset:0;will-change:opacity,transform,filter}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+// ------------------------------------------------------------------
+// Formatos
+const FORMATS = {
+  '4x5':  {w:1080,h:1350, pad:84,  h1:96,  num:300, kick:21, small:20, small2:28, sub:34, h2:58, row:34, row2:40, gap:30, gap2:30, icon:48, bh:22, blabel:'34%', cpad:44, cpad2:30, codef:27, dot:26, qf:78, arr:46},
+  '1x1':  {w:1080,h:1080, pad:76,  h1:88,  num:250, kick:20, small:19, small2:26, sub:31, h2:50, row:31, row2:36, gap:24, gap2:24, icon:44, bh:20, blabel:'34%', cpad:38, cpad2:26, codef:25, dot:24, qf:68, arr:42},
+  '16x9': {w:1600,h:900,  pad:72,  h1:84,  num:230, kick:19, small:18, small2:25, sub:30, h2:46, row:29, row2:33, gap:20, gap2:20, icon:42, bh:18, blabel:'28%', cpad:34, cpad2:24, codef:23, dot:22, qf:64, arr:56},
+  'video':{w:1920,h:1080, pad:88,  h1:104, num:280, kick:22, small:21, small2:30, sub:36, h2:56, row:35, row2:40, gap:24, gap2:24, icon:48, bh:22, blabel:'28%', cpad:40, cpad2:28, codef:28, dot:26, qf:78, arr:66},
+};
+
+// ------------------------------------------------------------------
+// Utilidades
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// *itálico serifado*  ==marca lime==  \n quebra
+const md = s => esc(s).replace(/==(.+?)==/g,'<span class="mk">$1</span>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+const srcmd = s => String(s ?? '').split('\n').map(line => line.split(' · ').map(p => `<span>${md(p)}</span>`).join(' · ')).join('<br>');
+const fmtNum = (v, dec, sep=',') => {
+  const neg = v < 0; const a = Math.abs(v).toFixed(dec);
+  let [i, d] = a.split('.'); i = i.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return (neg ? '−' : '') + i + (d ? sep + d : '');
+};
+const parseNum = s => { // "0,66" "−52,272" "1.000" "324" -> {v, dec}
+  const t = String(s).trim().replace('−','-');
+  const m = t.match(/^(-?)([\d.]*\d)(?:,(\d+))?$/);
+  if (!m) return null;
+  return {v: parseFloat((m[1]||'') + m[2].replace(/\./g,'') + (m[3] ? '.'+m[3] : '')), dec: m[3] ? m[3].length : 0};
+};
+const ease = {
+  out: p => 1 - Math.pow(1-p, 3),
+  outExpo: p => p >= 1 ? 1 : 1 - Math.pow(2, -10*p),
+  inOut: p => p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p+2, 3)/2,
+};
+const clamp = (x,a=0,b=1) => Math.max(a, Math.min(b, x));
+
+// anima: tipo, início (s, relativo à cena), duração
+const A = (type, t0, d=0.7, extra='') => ` data-a="${type}" data-t0="${t0.toFixed(3)}" data-d="${d}" ${extra}`;
+
+// ------------------------------------------------------------------
+// Layouts: cada um devolve o HTML do miolo (.body) e usa A() para o vídeo.
+const L = {};
+
+L.title = (s) => {
+  let t = 0;
+  return `<div class="ttl">
+    <div class="h fit"${A('rise', t, .8)}>${md(s.title)}</div>
+    ${s.sub ? `<div class="sub"${A('rise', t+.35, .7)}>${md(s.sub)}</div>` : ''}
+  </div>`;
+};
+
+L.stat = (s) => {
+  const pn = parseNum(s.value);
+  const val = pn ? `<span class="cnt" data-v="${pn.v}" data-dec="${pn.dec}">${esc(s.value)}</span>` : esc(s.value);
+  return `<div class="stat" style="display:flex;flex-direction:column">
+    ${s.title ? `<div class="k"${A('fade', 0, .5)} style="margin-bottom:1.2em">${md(s.title)}</div>` : ''}
+    <div class="num"${A('count', .1, 1.3)}>${val}${s.unit ? `<span class="unit">${esc(s.unit)}</span>` : ''}</div>
+    <div class="label fit"${A('rise', .45, .7)}>${md(s.label)}</div>
+    ${s.note ? `<div class="sub"${A('rise', .75, .7)} style="margin-top:.7em">${md(s.note)}</div>` : ''}
+    ${s.chip ? `<div class="chip"${A('fade', 1.05, .6)}><i></i>${md(s.chip)}</div>` : ''}
+  </div>`;
+};
+
+L.bars = (s) => {
+  const items = s.items || [];
+  const scale = s.scale || 'linear';
+  const f = v => scale === 'sqrt' ? Math.sqrt(Math.abs(v)) : scale === 'log' ? Math.log10(1 + Math.abs(v)) : Math.abs(v);
+  const max = Math.max(...items.map(i => f(i.value)), 1e-9);
+  const rows = items.map((it, k) => {
+    const pct = Math.max(1.2, 100 * f(it.value) / max);
+    const cls = it.value < 0 ? 'neg' : (it.hi ? 'hi' : '');
+    const shown = it.display ?? fmtNum(it.value, (String(it.value).split('.')[1]||'').length);
+    return `<div class="bar ${cls}"${A('rise', .25 + k*.12, .55)}>
+      <div class="bl">${md(it.label)}</div>
+      <div class="tr"><div class="fl" data-w="${pct.toFixed(2)}"${A('grow', .4 + k*.12, .9)} style="width:${pct.toFixed(2)}%"></div></div>
+      <div class="bv">${esc(shown)}</div></div>`;
+  }).join('');
+  return `<div class="bars">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <div class="rows">${rows}</div>
+    ${s.note ? `<div class="note"${A('fade', .6 + items.length*.12, .6)}>${md(s.note)}</div>` : ''}
+  </div>`;
+};
+
+L.steps = (s) => {
+  const items = (s.items || []).map((it, k) => {
+    const o = typeof it === 'string' ? {t: it} : it;
+    return `<li${A('rise', .3 + k*.22, .6)}><span class="n">${String(k+1).padStart(2,'0')}</span><div><div class="t">${md(o.t)}</div>${o.d ? `<div class="d">${md(o.d)}</div>` : ''}</div></li>`;
+  }).join('');
+  return `<div class="steps">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <ol>${items}</ol>
+  </div>`;
+};
+
+L.compare = (s) => {
+  const col = (c, k) => `<div class="col ${c.win ? 'win' : (c.lose ? 'lose' : '')}"${A('rise', .3 + k*.3, .7)}>
+      <div class="ch"><i></i>${md(c.head || '')}</div>
+      <div class="ct">${md(c.title || '')}</div>
+      <ul>${(c.items||[]).map((x, j) => `<li${A('fade', .6 + k*.3 + j*.14, .45)}>${md(x)}</li>`).join('')}</ul>
+    </div>`;
+  return `<div class="cmp" style="display:flex;flex-direction:column;height:100%;justify-content:center">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <div class="cols">${(s.cols||[]).slice(0,2).map(col).join('')}</div>
+    ${s.note ? `<div class="note"${A('fade', 1.6, .6)}>${md(s.note)}</div>` : ''}
+  </div>`;
+};
+
+L.code = (s) => {
+  const hl = new Set(s.highlight || []);
+  const start = s.start || 1;
+  const paint = line => esc(line)
+    .replace(/(\/\/.*$|#.*$)/, '<span class="c">$1</span>')
+    .replace(/(&quot;.*?&quot;)/g, '<span class="s">$1</span>')
+    .replace(/(?<![\w.])(-?\d+\.?\d*)(?![\w])/g, '<span class="nn">$1</span>');
+  const lines = String(s.code || '').replace(/\s+$/,'').split('\n').map((ln, k) =>
+    `<div class="ln ${hl.has(start+k) ? 'hl' : ''}"${A('fade', .35 + k*.07, .35)}><b>${start+k}</b><span>${paint(ln) || ' '}</span></div>`).join('');
+  return `<div class="code">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <div class="box">${lines}</div>
+    ${s.path ? `<div class="path"${A('fade', .8, .5)}>${esc(s.path)}</div>` : ''}
+  </div>`;
+};
+
+L.timeline = (s) => {
+  const items = s.items || [];
+  const rows = items.map((it, k) => `<div class="it ${k === items.length-1 ? 'last' : ''}"${A('rise', .3 + k*.28, .6)}>
+      <i></i><span class="w">${md(it.when)}</span><div class="x">${md(it.what)}${it.d ? `<small>${md(it.d)}</small>` : ''}</div></div>`).join('');
+  return `<div class="tl">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <div class="items">${rows}</div>
+    ${s.note ? `<div class="note"${A('fade', .5 + items.length*.28, .6)}>${md(s.note)}</div>` : ''}
+  </div>`;
+};
+
+L.flow = (s, F) => {
+  const vert = s.vertical ?? (F.h > F.w);
+  const nodes = s.nodes || [];
+  const arrow = vert
+    ? `<svg viewBox="0 0 40 40"><path d="M20 4 V32 M11 24 L20 33 L29 24"/></svg>`
+    : `<svg viewBox="0 0 40 40"><path d="M4 20 H32 M24 11 L33 20 L24 29"/></svg>`;
+  const parts = [];
+  nodes.forEach((n, k) => {
+    parts.push(`<div class="node ${n.hi ? 'hi' : ''}"${A('rise', .3 + k*.3, .6)}>${n.k ? `<div class="nk">${md(n.k)}</div>` : ''}<div class="nt">${md(n.t)}</div>${n.d ? `<div class="nd">${md(n.d)}</div>` : ''}</div>`);
+    if (k < nodes.length-1) parts.push(`<div class="arrow"${A('fade', .45 + k*.3, .4)} style="${vert ? 'height:var(--arr)' : ''}">${arrow}</div>`);
+  });
+  return `<div class="flow ${vert ? 'vert' : ''}">
+    <div class="h fit" style="font-size:var(--h2)"${A('rise', 0, .7)}>${md(s.title)}</div>
+    <div class="nodes">${parts.join('')}</div>
+    ${s.note ? `<div class="note"${A('fade', .5 + nodes.length*.3, .6)}>${md(s.note)}</div>` : ''}
+  </div>`;
+};
+
+L.quote = (s) => `<div class="qt">
+    <span class="qm"${A('fade', 0, .6)}>“</span>
+    <div class="q fit"${A('blur', 0, 1)}>${md(s.quote)}</div>
+    <div class="who"${A('rise', .6, .6)}>${md(s.who)}${s.role ? `<span>${md(s.role)}</span>` : ''}</div>
+  </div>`;
+
+L.end = (s) => `<div class="end" style="display:flex;flex-direction:column;gap:1.1em">
+    <div class="big"${A('blur', 0, .8)}><img src="assets/otto-icon-256.png"><b>otto</b></div>
+    ${s.title ? `<div class="h fit" style="font-size:var(--h2)"${A('rise', .35, .7)}>${md(s.title)}</div>` : ''}
+    ${s.sub ? `<div class="sub" style="margin-top:0"${A('rise', .6, .7)}>${md(s.sub)}</div>` : ''}
+  </div>`;
+
+// ------------------------------------------------------------------
+function deco(F, seed=0){
+  // anéis finos saindo do canto direito (de baixo ou de cima), com um ponto lime em órbita
+  const top = seed % 2 === 0;
+  const cx = F.w * 1.04, cy = top ? -F.h * 0.04 : F.h * 1.04;
+  const base = Math.min(F.w, F.h);
+  const rs = [.34, .52, .72].map(r => r * base);
+  const a0 = top ? Math.PI * 0.62 : Math.PI * 1.30;
+  const ang = a0 + (seed % 5) * 0.05;
+  const dx = cx + rs[1]*Math.cos(ang), dy = cy + rs[1]*Math.sin(ang);
+  return `<svg class="deco" width="${F.w}" height="${F.h}" viewBox="0 0 ${F.w} ${F.h}" style="left:0;top:0">
+    ${rs.map((r,i) => `<circle cx="${cx}" cy="${cy}" r="${r}" style="opacity:${.85 - i*.25}"/>`).join('')}
+    <circle class="dot glow" id="orbdot" data-cx="${cx}" data-cy="${cy}" data-r="${rs[1]}" data-ang="${ang}" cx="${dx}" cy="${dy}" r="${F.w/150}"/>
+  </svg>`;
+}
+
+function frame(s, F, inner, opts={}){
+  const top = opts.noTop ? '<div class="top" style="visibility:hidden"><span class="pill"><i></i>x</span></div>' : `<div class="top">
+      ${s.kicker ? `<span class="pill"><i></i>${md(s.kicker)}</span>` : '<span></span>'}
+      ${s.tag ? `<span class="tag">${md(s.tag)}</span>` : ''}
+    </div>`;
+  const foot = opts.noFoot ? '' : `<div class="foot">
+      <div class="brand"><img src="assets/otto-icon-256.png"><b>otto</b><span>@ottodoti</span></div>
+      ${s.source ? `<div class="src">${srcmd(s.source)}</div>` : ''}
+    </div>`;
+  return `<div class="frame">${top}<div class="body">${inner}</div>${foot}</div>`;
+}
+
+// ------------------------------------------------------------------
+let SPEC = null, F = null, SCENES = [], TOTAL = 0;
+const XF = 0.4; // crossfade entre cenas (s)
+const LAG = 0.25; // as animações da cena nova começam quando o crossfade já andou
+
+function setVars(F){
+  const st = document.getElementById('stage').style;
+  st.width = F.w+'px'; st.height = F.h+'px';
+  const map = {pad:'pad', h1:'h', num:'num', kick:'kick', small:'small', small2:'small2', sub:'sub', h2:'h2', row:'row', row2:'row2', gap:'gap', gap2:'gap2', icon:'icon', bh:'bh', cpad:'cpad', cpad2:'cpad2', codef:'codef', dot:'dot', qf:'qf', arr:'arr'};
+  for (const [k, v] of Object.entries(map)) st.setProperty('--'+v, F[k] + 'px');
+  st.setProperty('--blabel', F.blabel);
+}
+
+function fitAll(root){
+  // encolhe textos .fit até caberem; avisa quando passa do limite
+  const warn = [];
+  root.querySelectorAll('.body').forEach(body => {
+    const over = () => body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1;
+    let scale = 1, guard = 0;
+    while (over() && guard++ < 40) {
+      scale *= 0.96;
+      body.style.fontSize = ''; // reset
+      body.querySelectorAll('.h,.num,.label,.sub,.q,.t,.x,.ct,.bl,.bv,.nt,.box,.d,.note,.col li,.who').forEach(el => {
+        if (!el.dataset.fs0) el.dataset.fs0 = parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (el.dataset.fs0 * scale) + 'px';
+      });
+    }
+    if (scale < 0.72) warn.push(`texto apertado (escala ${scale.toFixed(2)}): encurte`);
+    if (over()) warn.push('texto ainda transborda: encurte');
+  });
+  return warn;
+}
+
+window.render = function(spec){
+  SPEC = spec;
+  const isVideo = spec.kind === 'video';
+  F = FORMATS[isVideo ? 'video' : (spec.format || '4x5')];
+  if (!F) throw new Error('formato desconhecido: ' + spec.format);
+  const stage = document.getElementById('stage');
+  stage.className = 'theme-' + (spec.theme || 'paper');
+  setVars(F);
+  const scenes = isVideo ? spec.scenes : [spec];
+  let t = 0;
+  SCENES = scenes.map((s, i) => {
+    const merged = Object.assign({kicker: spec.kicker, tag: spec.tag, source: spec.source}, s);
+    const lay = L[merged.layout || 'title'];
+    if (!lay) throw new Error('layout desconhecido: ' + merged.layout);
+    const dur = isVideo ? (s.dur || 3) : 0;
+    const sc = {start: t, dur, end: t + dur, i};
+    t = t + dur - (isVideo && i < scenes.length-1 ? XF : 0);
+    sc.layout = merged.layout || 'title';
+    sc.html = `<div class="scene" data-i="${i}">${frame(merged, F, lay(merged, F), {noFoot: isVideo, noTop: isVideo})}</div>`;
+    return sc;
+  });
+  TOTAL = isVideo ? SCENES[SCENES.length-1].end : 0;
+  const hud = isVideo ? `<div class="hud"><div class="frame" style="pointer-events:none;justify-content:space-between">
+      <div class="top">${spec.kicker ? `<span class="pill"><i></i>${md(spec.kicker)}</span>` : '<span></span>'}${spec.tag ? `<span class="tag">${md(spec.tag)}</span>` : ''}</div>
+      <div class="foot" id="hudfoot"><div class="brand"><img src="assets/otto-icon-256.png"><b>otto</b><span>@ottodoti</span></div>${spec.source ? `<div class="src">${srcmd(spec.source)}</div>` : ''}</div></div>
+      <div class="bar0"></div></div>` : '';
+  stage.innerHTML = deco(F, spec.seed ?? 1) + SCENES.map(s => s.html).join('') + hud;
+  SCENES.forEach(s => s.el = stage.querySelector(`.scene[data-i="${s.i}"]`));
+  // no vídeo, o rodapé fica no HUD; o miolo das cenas precisa da mesma altura útil
+  if (isVideo) stage.querySelectorAll('.scene .frame').forEach(f => f.style.paddingBottom = (F.pad + F.icon + 24) + 'px');
+  const warn = fitAll(stage);
+  return {w: F.w, h: F.h, total: TOTAL, fps: spec.fps || 30, warnings: warn};
+};
+
+function applyEl(el, p){
+  const type = el.dataset.a;
+  const e = ease.out(p);
+  if (type === 'fade') { el.style.opacity = e; }
+  else if (type === 'rise') { el.style.opacity = e; el.style.transform = `translateY(${(1-e)*28}px)`; }
+  else if (type === 'blur') { el.style.opacity = e; el.style.filter = `blur(${(1-e)*14}px)`; el.style.transform = `scale(${1.03 - .03*e})`; }
+  else if (type === 'grow') { el.style.width = (parseFloat(el.dataset.w) * ease.outExpo(p)) + '%'; }
+  else if (type === 'count') {
+    el.style.opacity = clamp(p*4);
+    const c = el.querySelector('.cnt');
+    if (c) c.textContent = fmtNum(parseFloat(c.dataset.v) * ease.outExpo(p), +c.dataset.dec);
+  }
+}
+
+window.setTime = function(t){
+  const isVideo = SPEC.kind === 'video';
+  const stage = document.getElementById('stage');
+  if (!isVideo) { // card: estado final
+    stage.querySelectorAll('[data-a]').forEach(el => applyEl(el, 1));
+    return;
+  }
+  SCENES.forEach((s, i) => {
+    const local = t - s.start;
+    const cover = i === 0 && SPEC.cover !== false; // quadro 0 = capa pronta
+    // visibilidade e transição
+    let op = 1, ty = 0, bl = 0, sc = 1;
+    if (local < 0 || t > s.end) op = 0;
+    else {
+      if (i > 0 && local < XF) { const p = ease.inOut(local / XF); op = p; bl = (1-p)*8; }
+      if (i < SCENES.length-1 && t > s.end - XF) { const p = ease.inOut((t - (s.end - XF)) / XF); op = 1-p; ty = -16*p; bl = 8*p; }
+      sc = 1 + 0.018 * clamp(local / s.dur); // deriva lenta de câmera
+    }
+    s.el.style.opacity = op;
+    s.el.style.filter = bl ? `blur(${bl}px)` : 'none';
+    s.el.style.transform = `translateY(${ty}px) scale(${sc})`;
+    s.el.style.transformOrigin = '30% 50%';
+    s.el.querySelectorAll('[data-a]').forEach(el => {
+      const p = cover ? 1 : clamp((local - (i > 0 ? LAG : 0) - parseFloat(el.dataset.t0)) / parseFloat(el.dataset.d));
+      applyEl(el, p);
+    });
+  });
+  // ponto lime orbitando devagar
+  const d = document.getElementById('orbdot');
+  if (d) { const a = parseFloat(d.dataset.ang) + Math.sin(t * 0.5) * 0.08; d.setAttribute('cx', +d.dataset.cx + d.dataset.r*Math.cos(a)); d.setAttribute('cy', +d.dataset.cy + d.dataset.r*Math.sin(a)); }
+  // no card final (logo grande), o rodapé do HUD sai de cena
+  const last = SCENES[SCENES.length-1], hf = document.getElementById('hudfoot');
+  if (hf && last.layout === 'end') hf.style.opacity = 1 - ease.inOut(clamp((t - last.start) / XF));
+  const bar = stage.querySelector('.bar0');
+  if (bar) bar.style.width = (100 * clamp(t / TOTAL)) + '%';
+};
+</script>
+</body>
+</html>

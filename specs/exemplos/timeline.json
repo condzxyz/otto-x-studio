@@ -1,0 +1,13 @@
+{
+  "kind": "card", "format": "4x5", "theme": "paper", "layout": "timeline", "seed": 5,
+  "kicker": "build in public · caso real", "tag": "plausible analytics",
+  "title": "324 dias até os *primeiros* US$ 400",
+  "items": [
+    {"when": "mai/2019", "what": "US$ 64 de MRR", "d": "updates públicos no blog, indie hackers e x"},
+    {"when": "fev/2020", "what": "US$ 403 de MRR", "d": "324 dias depois do início"},
+    {"when": "jan/2021", "what": "US$ 11.303 de MRR", "d": "\"enfim sustentável\""},
+    {"when": "jun/2022", "what": "US$ 1 milhão de ARR", "d": "7 mil assinantes, time de 4, sem anúncio pago"}
+  ],
+  "note": "\"all the early users came from these updates\" · depois, quem escalou foi o conteúdo útil",
+  "source": "plausible.io/blog/open-source-saas · 22/06/2022"
+}
